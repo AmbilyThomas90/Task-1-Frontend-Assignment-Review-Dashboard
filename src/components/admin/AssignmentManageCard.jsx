@@ -1,13 +1,13 @@
 import { useMemo, useState } from "react";
 import { CalendarDays, ChevronDown, ExternalLink, Trash2 } from "lucide-react";
-import ProgressBar from "../common/ProgressBar";
+import ProgressBar from "../common/ProgressBar";// Progress bar component used to show submission progress.
 import StudentProgressList from "./StudentProgressList";
 import { useApp } from "../../context/AppContext";
-
+// FORMAT DATE
 function formatDate(iso) {
   return new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
-
+// ASSIGNMENT MANAGE CARD
 export default function AssignmentManageCard({ assignment, students, submissions, defaultOpen = false }) {
   const { deleteAssignment } = useApp();
   const [open, setOpen] = useState(defaultOpen);
@@ -19,10 +19,11 @@ export default function AssignmentManageCard({ assignment, students, submissions
       .forEach((s) => map.set(s.studentId, s));
     return map;
   }, [submissions, assignment.id]);
-
-  const submittedCount = students.filter(
+  // COUNT SUBMITTED STUDENTS
+  const submittedCount = students.filter( 
     (s) => submissionByStudent.get(s.id)?.status === "submitted"
   ).length;
+   // CALCULATE SUBMISSION PERCENTAGE
   const pct = students.length === 0 ? 0 : Math.round((submittedCount / students.length) * 100);
 
   return (

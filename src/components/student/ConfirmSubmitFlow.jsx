@@ -2,13 +2,12 @@ import { useState } from "react";
 import { CheckCircle2, ShieldAlert } from "lucide-react";
 import Modal from "../common/Modal";
 
-/**
- * Two-step ("double-verification") confirmation flow.
- * Step 1 asks the student to affirm they've actually submitted.
- * Step 2 is a final, no-going-back confirmation before the status is saved.
- */
+
 export default function ConfirmSubmitFlow({ open, assignmentTitle, onCancel, onConfirmed }) {
-  const [step, setStep] = useState(1);
+  // Keeps track of which confirmation step is currently displayed.
+   // Step 1 → Ask the student if they have submitted the work
+  // Step 2 → Show the final warning and ask for confirmation
+  const [step, setStep] = useState(1);  
 
   const close = () => {
     setStep(1);

@@ -3,13 +3,16 @@ import DashboardLayout from "../layout/DashboardLayout";
 import ProgressBar from "../common/ProgressBar";
 import AssignmentCard from "./AssignmentCard";
 import { useApp } from "../../context/AppContext";
-
+// FILTER OPTIONS
+// all       → Show all assignments
+// pending   → Show assignments not submitted yet
+// submitted → Show submitted assignments
 const FILTERS = [
   { id: "all", label: "All" },
   { id: "pending", label: "Pending" },
   { id: "submitted", label: "Submitted" },
 ];
-
+// STUDENT DASHBOARD COMPONENT
 export default function StudentDashboard() {
   const { currentUser, assignments, submissions } = useApp();
   const [filter, setFilter] = useState("all");
@@ -18,25 +21,25 @@ export default function StudentDashboard() {
     () => submissions.filter((s) => s.studentId === currentUser.id),
     [submissions, currentUser.id]
   );
-
+// CREATE A MAP OF SUBMISSIONS BY ASSIGNMENT
   const submissionByAssignment = useMemo(() => {
     const map = new Map();
     mySubmissions.forEach((s) => map.set(s.assignmentId, s));
     return map;
   }, [mySubmissions]);
-
+  // SORT ASSIGNMENTS BY DUE DATE
   const sortedAssignments = useMemo(
     () => [...assignments].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)),
     [assignments]
   );
-
+// FILTER VISIBLE ASSIGNMENTS
   const visibleAssignments = sortedAssignments.filter((a) => {
     const status = submissionByAssignment.get(a.id)?.status || "not_submitted";
-    if (filter === "pending") return status !== "submitted";
-    if (filter === "submitted") return status === "submitted";
+    if (filter === "pending") return status !== "submitted";   // PENDING FILTER
+    if (filter === "submitted") return status === "submitted";  // SUBMITTED FILTER
     return true;
   });
-
+ // COUNT SUBMITTED ASSIGNMENTS
   const submittedCount = assignments.filter(
     (a) => submissionByAssignment.get(a.id)?.status === "submitted"
   ).length;

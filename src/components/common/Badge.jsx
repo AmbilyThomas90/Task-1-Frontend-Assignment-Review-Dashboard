@@ -1,6 +1,6 @@
 export default function Badge({ status }) {
   const isSubmitted = status === "submitted";
-  return (
+  return (    // Main badge container.
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
         isSubmitted ? "bg-good-100 text-good-600" : "bg-bad-100 text-bad-600"

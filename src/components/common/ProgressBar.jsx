@@ -1,12 +1,12 @@
 export default function ProgressBar({ value, label, tone = "gold", size = "md" }) {
-  const pct = Math.max(0, Math.min(100, value));
-
+  const pct = Math.max(0, Math.min(100, value));    // This keeps the progress bar within valid limits.
+ // PROGRESS BAR COLOR
   const toneClasses = {
     gold: "bg-gold-500",
     good: "bg-good-600",
     ink: "bg-ink-700",
   }[tone];
-
+ // PROGRESS BAR HEIGHT
   const height = size === "sm" ? "h-1.5" : "h-2.5";
 
   return (

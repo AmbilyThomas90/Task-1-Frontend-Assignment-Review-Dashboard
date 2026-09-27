@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CalendarDays, ExternalLink, RotateCcw } from "lucide-react";
-import Badge from "../common/Badge";
+import Badge from "../common/Badge";  // Badge displays the current submission status
 import ConfirmSubmitFlow from "./ConfirmSubmitFlow";
 import { useApp } from "../../context/AppContext";
 
@@ -8,7 +8,7 @@ function formatDate(iso) {
   if (!iso) return "—";
   return new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
-
+ //CHECK WHETHER AN ASSIGNMENT IS OVERDUE
 function isOverdue(dueDate, status) {
   return status !== "submitted" && new Date(dueDate) < new Date();
 }
@@ -18,7 +18,7 @@ export default function AssignmentCard({ assignment, submission }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const status = submission?.status || "not_submitted";
-  const overdue = isOverdue(assignment.dueDate, status);
+  const overdue = isOverdue(assignment.dueDate, status); // Check whether the assignment is overdue
 
   return (
     <div className="rounded-xl border border-ink-900/10 bg-white p-5 flex flex-col gap-4">

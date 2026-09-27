@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
-
+// MODAL COMPONENT
 export default function Modal({ open, onClose, title, children, maxWidth = "max-w-md" }) {
   useEffect(() => {
     if (!open) return;

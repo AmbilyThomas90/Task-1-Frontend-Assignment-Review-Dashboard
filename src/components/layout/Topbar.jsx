@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-
+// TOPBAR COMPONENT
 export default function Topbar({ title, subtitle, onMenuClick, actions }) {
   return (
     <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-ink-900/8 bg-paper-50/90 backdrop-blur px-4 sm:px-8 h-16">

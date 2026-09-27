@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
-
+// DASHBOARD LAYOUT
 export default function DashboardLayout({ title, subtitle, actions, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

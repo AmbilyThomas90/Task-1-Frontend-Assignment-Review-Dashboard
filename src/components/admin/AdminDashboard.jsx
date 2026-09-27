@@ -10,15 +10,15 @@ export default function AdminDashboard() {
   const [formOpen, setFormOpen] = useState(false);
 
   const students = useMemo(() => users.filter((u) => u.role === "student"), [users]);
-
+ // Newest assignments appear first.
   const myAssignments = useMemo(
     () =>
       assignments
-        .filter((a) => a.createdBy === currentUser.id)
+        .filter((a) => a.createdBy === currentUser.id)   // Keep only assignments created by this admin.
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     [assignments, currentUser.id]
   );
-
+  // Calculate the maximum possible number of submissions.
   const totalSubmissions = submissions.filter(
     (s) => myAssignments.some((a) => a.id === s.assignmentId) && s.status === "submitted"
   ).length;

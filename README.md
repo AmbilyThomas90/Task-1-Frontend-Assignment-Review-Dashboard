@@ -11,6 +11,14 @@ No backend — all data is simulated and persisted to `localStorage`, seeded fro
 There's no real authentication. On load you get a **role picker**: choose an admin (Dr. Meera Rao) or
 one of four students. Switch users any time from the sidebar ("Switch user").
 
+## Login Codes
+Admin Login
+ADMIN_CODE = "ADMIN2026"
+
+Use this code when logging in as an administrator/professor.
+
+Student Login
+STUDENT_CODE = "STUDENT2026"
 - **As a student** — see only your own assignments and completion %. Click **Mark as submitted** →
   confirm **"Yes, I have submitted"** → a final **"Confirm submission"** step. Both steps must be
   completed before the status changes; closing the dialog at any point cancels it.

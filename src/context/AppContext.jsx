@@ -1,11 +1,13 @@
-import { createContext, useContext, useMemo, useCallback } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { createContext, useContext, useMemo, useCallback } from "react";  //  for creating and managing global context
+import { useLocalStorage } from "../hooks/useLocalStorage";  // store application data in localStorage
 import { seedUsers, seedAssignments, seedSubmissions } from "../data/mockData";
 
+// CREATE APP CONTEXT
 const AppContext = createContext(null);
-
+// APP PROVIDER
+// AppProvider contains the application's global state.
 export function AppProvider({ children }) {
-  const [users] = useLocalStorage("coursework.users", seedUsers);
+  const [users] = useLocalStorage("coursework.users", seedUsers);    // USERS
   const [assignments, setAssignments] = useLocalStorage("coursework.assignments", seedAssignments);
   const [submissions, setSubmissions] = useLocalStorage("coursework.submissions", seedSubmissions);
   const [currentUserId, setCurrentUserId] = useLocalStorage("coursework.currentUserId", null);
@@ -18,7 +20,7 @@ export function AppProvider({ children }) {
   const login = useCallback((userId) => setCurrentUserId(userId), [setCurrentUserId]);
   const logout = useCallback(() => setCurrentUserId(null), [setCurrentUserId]);
 
-  // Create a new assignment (admin only, enforced in UI + here as a guard)
+  // Create a new assignment (admin only)
   const createAssignment = useCallback(
     ({ title, description, driveLink, dueDate }) => {
       if (!currentUser || currentUser.role !== "admin") return;
@@ -35,7 +37,7 @@ export function AppProvider({ children }) {
 
       // Create a "not_submitted" row for every current student so the
       // admin's per-student progress view is complete from the start.
-      const students = users.filter((u) => u.role === "student");
+      const students = users.filter((u) => u.role === "student");       // CREATE SUBMISSION RECORDS FOR ALL STUDENTS
       setSubmissions((prev) => [
         ...prev,
         ...students.map((s) => ({
@@ -49,7 +51,7 @@ export function AppProvider({ children }) {
     [currentUser, setAssignments, setSubmissions, users]
   );
 
-  const deleteAssignment = useCallback(
+  const deleteAssignment = useCallback(               // DELETE ASSIGNMENT
     (assignmentId) => {
       if (!currentUser || currentUser.role !== "admin") return;
       setAssignments((prev) => prev.filter((a) => a.id !== assignmentId));
@@ -58,20 +60,19 @@ export function AppProvider({ children }) {
     [currentUser, setAssignments, setSubmissions]
   );
 
-  // Student marks (or unmarks) their own submission. This is the action
-  // fired only after the double-confirmation flow completes in the UI.
+   // UPDATE STUDENT SUBMISSION STATUS
   const setSubmissionStatus = useCallback(
     (assignmentId, status) => {
       if (!currentUser || currentUser.role !== "student") return;
-      setSubmissions((prev) => {
+      setSubmissions((prev) => {      // Update the submissions array.      
         const exists = prev.some(
           (s) => s.assignmentId === assignmentId && s.studentId === currentUser.id
         );
         const stamp = status === "submitted" ? new Date().toISOString() : null;
-        if (!exists) {
+        if (!exists) {   //CREATE NEW RECORD
           return [...prev, { assignmentId, studentId: currentUser.id, status, submittedAt: stamp }];
         }
-        return prev.map((s) =>
+        return prev.map((s) =>  // UPDATE EXISTING RECORD
           s.assignmentId === assignmentId && s.studentId === currentUser.id
             ? { ...s, status, submittedAt: stamp }
             : s
@@ -80,7 +81,8 @@ export function AppProvider({ children }) {
     },
     [currentUser, setSubmissions]
   );
-
+  // CONTEXT VALUE
+   // Collect all shared application data and functions
   const value = {
     users,
     assignments,
@@ -92,7 +94,7 @@ export function AppProvider({ children }) {
     deleteAssignment,
     setSubmissionStatus,
   };
-
+  // AppContext.Provider makes the "value" object available
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 

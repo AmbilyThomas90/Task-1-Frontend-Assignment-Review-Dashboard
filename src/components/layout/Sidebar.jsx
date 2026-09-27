@@ -1,6 +1,6 @@
 import { LayoutGrid, LogOut, X, GraduationCap } from "lucide-react";
 import { useApp } from "../../context/AppContext";
-
+// SIDEBAR COMPONENT
 export default function Sidebar({ open, onClose }) {
   const { currentUser, logout } = useApp();
 

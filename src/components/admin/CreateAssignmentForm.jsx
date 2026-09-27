@@ -3,14 +3,14 @@ import Modal from "../common/Modal";
 import { useApp } from "../../context/AppContext";
 
 const empty = { title: "", description: "", driveLink: "", dueDate: "" };
-
+// CREATE ASSIGNMENT FORM
 export default function CreateAssignmentForm({ open, onClose }) {
-  const { createAssignment } = useApp();
+  const { createAssignment } = useApp(); 
   const [form, setForm] = useState(empty);
   const [error, setError] = useState("");
-
+  // UPDATE FORM FIELD
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
-
+  // SUBMIT FORM
   const submit = (e) => {
     e.preventDefault();
     if (!form.title.trim() || !form.dueDate || !form.driveLink.trim()) {
@@ -22,7 +22,7 @@ export default function CreateAssignmentForm({ open, onClose }) {
     setError("");
     onClose();
   };
-
+ // CLOSE FORM
   const handleClose = () => {
     setForm(empty);
     setError("");

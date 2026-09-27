@@ -1,10 +1,10 @@
-import Badge from "../common/Badge";
+import Badge from "../common/Badge";  // Badge component is used to display the student's submission status
 
 function formatDate(iso) {
   if (!iso) return null;
   return new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short" });
 }
-
+// STUDENT PROGRESS LIST
 export default function StudentProgressList({ students, submissionByStudent }) {
   return (
     <ul className="divide-y divide-ink-900/8">
